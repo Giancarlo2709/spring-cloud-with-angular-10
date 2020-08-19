@@ -1,0 +1,29 @@
+spring:
+  application:    name: microservice-courses
+  datasource:    url: jdbc:mysql://localhost:3306/db_microservices_exams
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:    database-platform: org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: true
+  #Deshabilitar ribbon para habilitar el balanceador de load balance de(Cloud LoadBalancer)
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+config:
+  balancer:
+    test: ${BALANCER_TEST:pordefecto}
+    
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        
+server:  port: ${PORT:0}
+  
+eureka:  instance:    instance-id: ${spring.application.name}:${random.value}
+  client:    service-url:      defaultZone: http://localhost:8761/eureka
+    
