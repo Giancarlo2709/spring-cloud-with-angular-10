@@ -11,5 +11,7 @@ public interface ExamService extends CommonService<Exam> {
 	public List<Exam> findByNameLike(String term);
 	
 	public Iterable<Subject> findAllSubjects();
+	
+	public Iterable<Long> findExamsIdsWithAnswersByQuestionIds(Iterable<Long> questionIds);
 
 }

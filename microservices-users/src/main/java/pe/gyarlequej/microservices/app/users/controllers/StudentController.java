@@ -1,6 +1,7 @@
 package pe.gyarlequej.microservices.app.users.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -27,6 +28,11 @@ import pe.gyarlequej.microservices.commons.students.models.entity.Student;
 
 @RestController
 public class StudentController extends CommonController<Student, StudentService> {
+	
+	@GetMapping("/student-by-course")
+	public ResponseEntity<?> getStudentsByCourse(@RequestParam List<Long> ids) {
+		return ResponseEntity.ok(this.service.findAllById(ids));
+	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Student student, BindingResult result, @PathVariable Long id) {
