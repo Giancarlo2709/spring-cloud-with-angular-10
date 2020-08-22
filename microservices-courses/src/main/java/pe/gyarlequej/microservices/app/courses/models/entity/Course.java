@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +17,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +46,13 @@ public class Course {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"course"}, allowSetters = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course", 
+			cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CourseStudent> courseStudents;
+	
+	// @OneToMany(fetch = FetchType.LAZY)
+	@Transient
 	List<Student> students;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -51,6 +61,7 @@ public class Course {
 	public Course() {
 		this.students = new ArrayList<>();
 		this.exams = new ArrayList<>();
+		this.courseStudents = new ArrayList<>();
 	}
 	
 	@PrePersist
@@ -72,6 +83,14 @@ public class Course {
 	
 	public void removeExam(Exam exam) {
 		this.exams.remove(exam);
+	}
+	
+	public void addCourseStudent(CourseStudent courseStudent) {
+		this.courseStudents.add(courseStudent);
+	}
+	
+	public void removeCourseStudent(CourseStudent courseStudent) {
+		this.courseStudents.remove(courseStudent);
 	}
 
 }

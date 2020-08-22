@@ -5,7 +5,7 @@ spring:
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   jpa:    database-platform: org.hibernate.dialect.MySQL5Dialect
-    generate-ddl: true
+    generate-ddl: false
   #Deshabilitar ribbon para habilitar el balanceador de load balance de(Cloud LoadBalancer)
   cloud:
     loadbalancer:

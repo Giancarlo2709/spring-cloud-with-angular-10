@@ -1,13 +1,7 @@
 package pe.gyarlequej.microservices.app.answers.models.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,20 +14,20 @@ import pe.gyarlequej.microservices.commons.students.models.entity.Student;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@Table(name = "answers")
+@Document(collection = "answers")
 public class Answer {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
 	
 	private String text;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
 	private Student student;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	private Long studentId;
+	
 	private Question question;
+	
+	private Long questionId;
 
 }
