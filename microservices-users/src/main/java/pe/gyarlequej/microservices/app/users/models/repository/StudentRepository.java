@@ -2,6 +2,8 @@ package pe.gyarlequej.microservices.app.users.models.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -12,5 +14,8 @@ public interface StudentRepository extends PagingAndSortingRepository<Student, L
 	@Query("select s from Student s where upper(s.name) like %?1% or upper(s.lastName) like %?1%")
 	public List<Student> findByNameOrLastName(String search);
 	
+	public Iterable<Student> findAllByOrderByIdAsc();
+	
+	public Page<Student> findAllByOrderByIdAsc(Pageable pageable);	
 
 }

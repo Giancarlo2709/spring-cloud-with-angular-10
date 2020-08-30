@@ -3,6 +3,8 @@ package pe.gyarlequej.microservices.app.users.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +44,17 @@ public class StudentServiceImpl extends CommonServiceImpl<Student, StudentReposi
 		super.deleteById(id);
 		this.deleteCourseStudentByStudentId(id);
 	}
-	
-	
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public Iterable<Student> findAll() {
+		return this.repository.findAllByOrderByIdAsc();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Student> findAll(Pageable pageable) {
+		return this.repository.findAllByOrderByIdAsc(pageable);
+	}	
 
 }
