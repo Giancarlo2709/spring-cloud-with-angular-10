@@ -1,0 +1,44 @@
+<div class="card bg-light mb-3">
+    <div class="card-header">{{title}}</div>
+    <div class="card-body">
+        <button class="btn btn-secondary my-2" routerLink='/students'>volver</button>
+
+        <form>
+            <div class="form-group">
+                <label for="name">Nombres</label>
+                <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" />
+                <div class="alert alert-danger" *ngIf="error?.name">
+                    {{error.name}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Apellidos</label>
+                <input type="text" name="lastName" class="form-control" id="lastName" [(ngModel)]="model.lastName" />
+                <div class="alert alert-danger" *ngIf="error?.lastName">
+                    {{error.lastName}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" class="form-control" id="email" [(ngModel)]="model.email" />
+                <div class="alert alert-danger" *ngIf="error?.email">
+                    {{error.email}}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input (change) = "selectPhoto($event)" name = "inputGroupFileAddon01" type="file" class="custom-file-input" id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Seleccionar Foto</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" (click)="model.id ? update() : create()">
+                    {{model.id ? 'Editar' : 'Crear'}}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

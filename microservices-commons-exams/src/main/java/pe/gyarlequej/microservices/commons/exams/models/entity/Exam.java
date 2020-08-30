@@ -59,9 +59,15 @@ public class Exam {
 	@Transient
 	private boolean answered;
 	
+	@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@NotNull
-	private Subject subject;
+	private Subject subjectParent;
+	
+	@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotNull
+	private Subject subjectChild;
 	
 	public Exam() {
 		this.questions = new ArrayList<>();

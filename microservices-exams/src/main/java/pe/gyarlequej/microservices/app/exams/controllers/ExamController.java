@@ -2,6 +2,7 @@ package pe.gyarlequej.microservices.app.exams.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pe.gyarlequej.microservices.app.exams.services.ExamService;
 import pe.gyarlequej.microservices.commons.controllers.CommonController;
 import pe.gyarlequej.microservices.commons.exams.models.entity.Exam;
+import pe.gyarlequej.microservices.commons.exams.models.entity.Question;
 
 @RestController
 public class ExamController extends CommonController<Exam, ExamService> {
@@ -43,12 +45,16 @@ public class ExamController extends CommonController<Exam, ExamService> {
 		Exam examDb = examOptional.get();
 		examDb.setName(exam.getName());
 		
-		examDb.getQuestions()
+		List<Question> deletes =  examDb.getQuestions()
 			.stream()
 			.filter(qdb -> !exam.getQuestions().contains(qdb))
-			.forEach(examDb::removeQuestion);
+			.collect(Collectors.toList());
+		
+		deletes.forEach(examDb::removeQuestion);
 		
 		examDb.setQuestions(exam.getQuestions());
+		examDb.setSubjectChild(exam.getSubjectChild());
+		examDb.setSubjectParent(exam.getSubjectParent());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(examDb));		
 	}

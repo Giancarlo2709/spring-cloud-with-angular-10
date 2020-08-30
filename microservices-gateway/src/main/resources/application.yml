@@ -3,6 +3,18 @@ spring:
     name: microservice-gateway
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: 'http://localhost:4200'
+            allowedHeaders:
+              - Content-Type
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
       routes:
       - id: microservice-users
         uri: lb://microservice-users
